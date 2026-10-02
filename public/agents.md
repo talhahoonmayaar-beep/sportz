@@ -1,4 +1,4 @@
-# AGENTS.md — Toolskit.info
+# AGENTS.md — buildingmaterialcalculator.netlify.app
 
 ## Project overview
 

@@ -3,4 +3,4 @@ Allow: /
 Disallow: /thank-you
 Disallow: /thank-you.html
 
-Sitemap: https://toolskit.info/sitemap.xml
+Sitemap: https://buildingmaterialcalculator.netlify.app/sitemap.xml

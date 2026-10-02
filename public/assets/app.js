@@ -269,7 +269,7 @@
         form.reset();
         setTimeout(() => (location.href = "/thank-you"), 900);
       } catch {
-        status.textContent = "Something went wrong. Email us instead at hello@toolskit.info.";
+        status.textContent = "Something went wrong. Email us instead at hello@buildingmaterialcalculator.netlify.app.";
         status.className = "form-status err";
       }
     });
