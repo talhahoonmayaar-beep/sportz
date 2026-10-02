@@ -1,43 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>http://buildingmaterialcalculator.netlify.app/</loc>
+    <loc>https://buildingmaterialcalculator.netlify.app/</loc>
     <priority>1.00</priority>
   </url>
   <url>
-    <loc>http://buildingmaterialcalculator.netlify.app/calculators/gravel-calculator</loc>
+    <loc>https://buildingmaterialcalculator.netlify.app/calculators/gravel-calculator</loc>
     <priority>0.80</priority>
   </url>
   <url>
-    <loc>http://buildingmaterialcalculator.netlify.app/calculators/mulch-calculator</loc>
+    <loc>https://buildingmaterialcalculator.netlify.app/calculators/mulch-calculator</loc>
     <priority>0.80</priority>
   </url>
   <url>
-    <loc>http://buildingmaterialcalculator.netlify.app/calculators/paint-calculator</loc>
+    <loc>https://buildingmaterialcalculator.netlify.app/calculators/paint-calculator</loc>
     <priority>0.80</priority>
   </url>
   <url>
-    <loc>http://buildingmaterialcalculator.netlify.app/calculators/fence-calculator</loc>
+    <loc>https://buildingmaterialcalculator.netlify.app/calculators/fence-calculator</loc>
     <priority>0.80</priority>
   </url>
   <url>
-    <loc>http://buildingmaterialcalculator.netlify.app/calculators/paver-calculator</loc>
+    <loc>https://buildingmaterialcalculator.netlify.app/calculators/paver-calculator</loc>
     <priority>0.80</priority>
   </url>
   <url>
-    <loc>http://buildingmaterialcalculator.netlify.app/calculators/sod-calculator</loc>
+    <loc>https://buildingmaterialcalculator.netlify.app/calculators/sod-calculator</loc>
     <priority>0.80</priority>
   </url>
   <url>
-    <loc>http://buildingmaterialcalculator.netlify.app/about</loc>
+    <loc>https://buildingmaterialcalculator.netlify.app/about</loc>
     <priority>0.50</priority>
   </url>
   <url>
-    <loc>http://buildingmaterialcalculator.netlify.app/contact</loc>
+    <loc>https://buildingmaterialcalculator.netlify.app/contact</loc>
     <priority>0.50</priority>
   </url>
   <url>
-    <loc>http://buildingmaterialcalculator.netlify.app/privacy</loc>
+    <loc>https://buildingmaterialcalculator.netlify.app/privacy</loc>
     <priority>0.50</priority>
   </url>
 </urlset>
