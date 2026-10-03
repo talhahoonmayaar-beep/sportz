@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://buildingmaterialcalculator.netlify.app/</loc></url>
-  <url><loc>https://buildingmaterialcalculator.netlify.app/calculators/gravel-calculator.html</loc></url>
-  <url><loc>https://buildingmaterialcalculator.netlify.app/calculators/mulch-calculator.html</loc></url>
-  <url><loc>https://buildingmaterialcalculator.netlify.app/calculators/paint-calculator.html</loc></url>
-  <url><loc>https://buildingmaterialcalculator.netlify.app/calculators/fence-calculator.html</loc></url>
-  <url><loc>https://buildingmaterialcalculator.netlify.app/calculators/paver-calculator.html</loc></url>
-  <url><loc>https://buildingmaterialcalculator.netlify.app/calculators/sod-calculator.html</loc></url>
-  <url><loc>https://buildingmaterialcalculator.netlify.app/about.html</loc></url>
-  <url><loc>https://buildingmaterialcalculator.netlify.app/contact.html</loc></url>
-  <url><loc>https://buildingmaterialcalculator.netlify.app/privacy.html</loc></url>
+  <url><loc>https://buildingmaterialcalculator.netlify.app/calculators/gravel-calculator/</loc></url>
+  <url><loc>https://buildingmaterialcalculator.netlify.app/calculators/mulch-calculator/</loc></url>
+  <url><loc>https://buildingmaterialcalculator.netlify.app/calculators/paint-calculator/</loc></url>
+  <url><loc>https://buildingmaterialcalculator.netlify.app/calculators/fence-calculator/</loc></url>
+  <url><loc>https://buildingmaterialcalculator.netlify.app/calculators/paver-calculator/</loc></url>
+  <url><loc>https://buildingmaterialcalculator.netlify.app/calculators/sod-calculator/</loc></url>
+  <url><loc>https://buildingmaterialcalculator.netlify.app/about/</loc></url>
+  <url><loc>https://buildingmaterialcalculator.netlify.app/contact/</loc></url>
+  <url><loc>https://buildingmaterialcalculator.netlify.app/privacy/</loc></url>
 </urlset>
