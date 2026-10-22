@@ -17,7 +17,22 @@
     const el = $(id);
     if (el) el.classList.toggle("invalid", bad);
   };
-  const anyInvalid = (ids) => ids.some((id) => !Number.isFinite(val(id)));
+  const validNumber = (id, rule = "positive", optional = false) => {
+    const el = $(id);
+    if (!el) return false;
+    const raw = String(el.value).trim();
+    if (optional && raw === "") {
+      markInvalid(id, false);
+      return true;
+    }
+    const n = val(id);
+    let valid = Number.isFinite(n);
+    if (rule === "positive") valid = valid && n > 0;
+    if (rule === "nonnegative") valid = valid && n >= 0;
+    if (rule === "integer") valid = valid && n >= 0 && Number.isInteger(n);
+    markInvalid(id, !valid);
+    return valid;
+  };
 
   const areaSqft = (shape, L, W) => {
     if (shape === "circle") return (Math.PI * L * L) / 4;
@@ -30,19 +45,19 @@
 
   const CALCS = {
     gravel: () => {
-      const ids = ["gLength", "gWidth", "gDepth"];
       const shape = $("gShape").value;
       const L = val("gLength"), W = shape === "circle" ? L : val("gWidth"), D = val("gDepth");
-      ids.forEach((id) => markInvalid(id, !Number.isFinite(val(id))));
-      markInvalid("gWidth", shape !== "circle" && !Number.isFinite(W));
-      if (anyInvalid(ids) || (shape !== "circle" && !Number.isFinite(W))) {
+      const dimensionsValid = validNumber("gLength") &&
+        (shape === "circle" || validNumber("gWidth")) && validNumber("gDepth");
+      const priceValid = validNumber("gPrice", "nonnegative", true);
+      if (!dimensionsValid || !priceValid) {
         return err("Enter the length, width and depth of your area to see results.");
       }
       const du = $("gDunit").value;
       const depthFt = du === "in" ? D / 12 : D;
       const density = { pea: 1.45, crushed: 1.4, river: 1.3, sand: 1.35, topsoil: 1.15 }[$("gMat").value] || 1.4;
       const waste = val("gWaste") || 0;
-      const price = val("gPrice");
+      const price = String($("gPrice").value).trim() === "" ? NaN : val("gPrice");
       const area = areaSqft(shape, L, W);
       const ydRaw = (area * depthFt) / 27;
       const yd = ydRaw * (1 + waste / 100);
@@ -64,11 +79,12 @@
     },
 
     mulch: () => {
-      const ids = ["mLength", "mWidth", "mDepth"];
       const shape = $("mShape").value;
       const L = val("mLength"), W = shape === "circle" ? L : val("mWidth"), D = val("mDepth");
-      ids.forEach((id) => markInvalid(id, !Number.isFinite(val(id))));
-      if (anyInvalid(ids) || (shape !== "circle" && !Number.isFinite(W))) {
+      const dimensionsValid = validNumber("mLength") &&
+        (shape === "circle" || validNumber("mWidth")) && validNumber("mDepth");
+      const priceValid = validNumber("mPrice", "nonnegative", true);
+      if (!dimensionsValid || !priceValid) {
         return err("Enter the length, width and mulch depth to see results.");
       }
       const area = areaSqft(shape, L, W);
@@ -77,7 +93,7 @@
       const yd = (cuft * (1 + waste / 100)) / 27;
       const bagSize = parseFloat($("mBag").value);
       const bags = Math.ceil((cuft * (1 + waste / 100)) / bagSize);
-      const price = val("mPrice");
+      const price = String($("mPrice").value).trim() === "" ? NaN : val("mPrice");
       const cost = Number.isFinite(price) ? yd * price : null;
       return ok(
         `<p class="big">${fmt(yd)} cubic yards</p><p class="muted">or ${bags} bags (${bagSize} cu ft each) for ${fmt(area, 0)} sq ft at ${fmt(D, 1)}″ deep.</p>`,
@@ -91,14 +107,15 @@
     },
 
     paint: () => {
-      const ids = ["pLength", "pWidth", "pHeight", "pCoats", "pCoverage"];
-      ids.forEach((id) => markInvalid(id, !Number.isFinite(val(id))));
-      if (anyInvalid(ids)) return err("Enter the room dimensions, coats and paint coverage.");
+      const valid = ["pLength", "pWidth", "pHeight", "pCoverage"].every((id) => validNumber(id)) &&
+        validNumber("pDoors", "integer") && validNumber("pWindows", "integer") &&
+        validNumber("pPrice", "nonnegative", true);
+      if (!valid) return err("Enter positive room dimensions and paint coverage. Door and window counts must be whole, non-negative numbers.");
       const L = val("pLength"), W = val("pWidth"), H = val("pHeight");
       const coats = Math.max(1, Math.round(val("pCoats")));
       const doors = val("pDoors") || 0, wins = val("pWindows") || 0;
-      const cov = val("pCoverage") || 350;
-      const price = val("pPrice");
+      const cov = val("pCoverage");
+      const price = String($("pPrice").value).trim() === "" ? NaN : val("pPrice");
       let walls = 2 * (L + W) * H;
       const openings = doors * 21 + wins * 15;
       let net = Math.max(0, walls - openings);
@@ -120,12 +137,12 @@
     },
 
     fence: () => {
-      const ids = ["fLength", "fPanel"];
-      ids.forEach((id) => markInvalid(id, !Number.isFinite(val(id))));
-      if (anyInvalid(ids)) return err("Enter the total fence length and panel width.");
-      const len = val("fLength"), pw = val("fPanel") || 6;
-      const gates = Math.round(val("fGates") || 0);
-      const price = val("fPrice");
+      const valid = validNumber("fLength") && validNumber("fPanel") &&
+        validNumber("fGates", "integer") && validNumber("fPrice", "nonnegative", true);
+      if (!valid) return err("Enter a positive fence length and panel width, a whole non-negative gate count, and a valid optional price.");
+      const len = val("fLength"), pw = val("fPanel");
+      const gates = val("fGates");
+      const price = String($("fPrice").value).trim() === "" ? NaN : val("fPrice");
       const panels = Math.ceil(len / pw);
       const posts = panels + 1 + gates;
       const rails = panels * 2;
@@ -143,12 +160,11 @@
     },
 
     paver: () => {
-      const ids = ["aLength", "aWidth"];
-      ids.forEach((id) => markInvalid(id, !Number.isFinite(val(id))));
-      if (anyInvalid(ids)) return err("Enter the length and width of your paved area.");
+      const valid = validNumber("aLength") && validNumber("aWidth") && validNumber("aPrice", "nonnegative", true);
+      if (!valid) return err("Enter positive area dimensions and a valid optional price.");
       const L = val("aLength"), W = val("aWidth");
       const waste = val("aWaste") || 0;
-      const price = val("aPrice");
+      const price = String($("aPrice").value).trim() === "" ? NaN : val("aPrice");
       const [pw, ph] = $("aSize").value.split("x").map(Number);
       const ppsf = (pw * ph) / 144;
       const area = L * W;
@@ -171,13 +187,12 @@
     },
 
     sod: () => {
-      const ids = ["sLength", "sWidth"];
-      ids.forEach((id) => markInvalid(id, !Number.isFinite(val(id))));
-      if (anyInvalid(ids)) return err("Enter the length and width of your lawn area.");
+      const valid = validNumber("sLength") && validNumber("sWidth") && validNumber("sPrice", "nonnegative", true);
+      if (!valid) return err("Enter positive lawn dimensions and a valid optional pallet price.");
       const L = val("sLength"), W = val("sWidth");
       const waste = val("sWaste") || 0;
       const palletSqft = parseFloat($("sPallet").value);
-      const price = val("sPrice");
+      const price = String($("sPrice").value).trim() === "" ? NaN : val("sPrice");
       const area = L * W;
       const aw = area * (1 + waste / 100);
       const pallets = Math.ceil(aw / palletSqft);
